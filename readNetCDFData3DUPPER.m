@@ -1,29 +1,20 @@
-function [lon,lat,time,unitst,data,unitsd,fillValue]=readNetCDFData4D(fname,varname)
+function [lon,lat,time,unitst,data,unitsd,fillValue]=readNetCDFData3DUPPER(fname,varname)
 
   ncid=netcdf.open(char(fname),'NC_NOWRITE');
-  varid=netcdf.inqVarID(ncid,'lon');
+  varid=netcdf.inqVarID(ncid,'LON')
   lon=netcdf.getVar(ncid,varid);
-  varid=netcdf.inqVarID(ncid,'lat');
+  varid=netcdf.inqVarID(ncid,'LAT');
   lat=netcdf.getVar(ncid,varid);
-  varid=netcdf.inqVarID(ncid,'time');
+  varid=netcdf.inqVarID(ncid,'TIME');
   time=netcdf.getVar(ncid,varid);
   unitst=netcdf.getAtt(ncid,varid,'units');
-  varid = netcdf.inqVarID(ncid,varname);
+  varid = netcdf.inqVarID(ncid,upper(varname));
   data=netcdf.getVar(ncid,varid);
-
-  % Look for units 
-  try
-     unitsd=ncreadatt(char(fname),varname,'units');
-  catch exception
-     if strcmp(exception.identifier,'MATLAB:imagesci:netcdf:libraryFailure');
-        unitsd='';
-     end % if catch exception
- end % try fillValue
-
+  unitsd=netcdf.getAtt(ncid,varid,'units');
 
   % Look for FillValue
   try
-     fillValue=ncreadatt(char(fname),varname,'_FillValue');
+     fillValue=ncreadatt(char(fname),upper(varname),'_FillValue');
   catch exception 
      if strcmp(exception.identifier,'MATLAB:imagesci:netcdf:libraryFailure');
     

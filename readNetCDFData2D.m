@@ -1,25 +1,14 @@
-function [lon,lat,time,unitst,data,unitsd,fillValue]=readNetCDFData4D(fname,varname)
+function [lon,lat,time,unitst,data,unitsd,fillValue]=readNetCDFData2D(fname,varname)
 
   ncid=netcdf.open(char(fname),'NC_NOWRITE');
   varid=netcdf.inqVarID(ncid,'lon');
   lon=netcdf.getVar(ncid,varid);
   varid=netcdf.inqVarID(ncid,'lat');
   lat=netcdf.getVar(ncid,varid);
-  varid=netcdf.inqVarID(ncid,'time');
-  time=netcdf.getVar(ncid,varid);
   unitst=netcdf.getAtt(ncid,varid,'units');
   varid = netcdf.inqVarID(ncid,varname);
   data=netcdf.getVar(ncid,varid);
-
-  % Look for units 
-  try
-     unitsd=ncreadatt(char(fname),varname,'units');
-  catch exception
-     if strcmp(exception.identifier,'MATLAB:imagesci:netcdf:libraryFailure');
-        unitsd='';
-     end % if catch exception
- end % try fillValue
-
+  unitsd=netcdf.getAtt(ncid,varid,'units');
 
   % Look for FillValue
   try

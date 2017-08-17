@@ -13,7 +13,8 @@ function [lon,lat,ens,time,unitst,data,unitsd,fillValue]=readNetCDFData4D(fname,
   varid = netcdf.inqVarID(ncid,varname);
   data=netcdf.getVar(ncid,varid);
   unitsd=netcdf.getAtt(ncid,varid,'units');
-  fillValue=ncreadatt(char(fname),'anom','_FillValue');
+  fillValue=ncreadatt(char(fname),varname,'_FillValue');
   bad=find(data == fillValue);
   data(bad)=NaN;
+  netcdf.close(ncid);
 

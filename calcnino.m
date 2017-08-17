@@ -40,7 +40,8 @@ function [ N12,N3,N34,N4] = calcnino(lons,lats,data)
    N12=nanmean(box,1);
  
    %Nino3
-   ilat=find(lats >= -5 & lats <=5);
+%   ilat=find(lats >= -5 & lats <=5);
+   ilat=find(lats > -5 & lats <5);
    ilon=find(lons >=210 & lons <=270);
    nxbox=numel(ilon);
    nybox=numel(ilat);
@@ -48,12 +49,12 @@ function [ N12,N3,N34,N4] = calcnino(lons,lats,data)
    N3=nanmean(box,1);
 
    %Nino3.4
-   ilon=find(lons >=190 & lons <=240);
+%   ilon=find(lons >=190 & lons <=240);
+   ilon=find(lons >190 & lons <240);
    nxbox=numel(ilon);
    nybox=numel(ilat);
    box=reshape(data(ilon,ilat,:,:),[nxbox.*nybox,nens,nt]);
    N34=nanmean(box,1);
-
 
    %Nino4
    ilon=find(lons >=160 & lons <=210);
